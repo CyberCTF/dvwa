@@ -16,7 +16,7 @@ in and the database created at first start.
 
 ```bash
 isoloom generate
-isoloom up docker
+isoloom run docker
 ```
 
 Then open http://localhost:4280/ and log in as `admin` / `password`. The database is already
