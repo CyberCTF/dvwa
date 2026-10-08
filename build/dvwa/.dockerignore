@@ -1,0 +1,7 @@
+app/**/.git
+app/**/.gitignore
+app/**/.github
+app/**/Dockerfile*
+app/**/.dockerignore
+app/**/compose*
+Dockerfile
