@@ -135,7 +135,8 @@
       "vagrant": "needs `vm:` on db, dvwa",
       "proxmox": "needs `vm:` on db, dvwa",
       "cloud-vm": "needs `vm:` on db, dvwa",
-      "external": "needs `external:` on db, dvwa"
+      "external": "needs `external:` on db, dvwa",
+      "cloud-services": "left out by `targets:`"
     }
   },
   "checks": {
