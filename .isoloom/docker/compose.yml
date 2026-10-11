@@ -80,8 +80,13 @@ services:
     networks:
       lab:
         ipv4_address: 10.60.2.10
+    environment:
+      CTF_FLAG_MAIN: ${CTF_FLAG_MAIN:-}
     ports:
     - ${ISOLOOM_PUBLISH_ADDRESS:-127.0.0.1}:${ISOLOOM_PUBLISH_FIXED:+4280}:80
+    volumes:
+    - dvwa-ctf:/ctf
+    - isoloom-probe-amd64:/.isoloom-probe:ro
     healthcheck:
       test:
       - CMD
@@ -93,8 +98,6 @@ services:
       timeout: 3s
       retries: 60
       start_period: 10s
-    volumes:
-    - isoloom-probe-amd64:/.isoloom-probe:ro
     depends_on:
       isoloom-probe-amd64:
         condition: service_completed_successfully
@@ -135,6 +138,26 @@ services:
     labels:
       isoloom.managed: 'true'
       isoloom.environment: dvwa
+  dvwa-init-1:
+    image: isoloom/dvwa-dvwa
+    entrypoint:
+    - /bin/sh
+    - /isoloom/init/flag.sh
+    volumes:
+    - ../../ctf/flag.sh:/isoloom/init/flag.sh:ro
+    - dvwa-ctf:/ctf
+    network_mode: service:dvwa
+    environment:
+      CTF_FLAG_MAIN: ${CTF_FLAG_MAIN:-}
+    depends_on:
+      dvwa:
+        condition: service_healthy
+      dvwa-routes:
+        condition: service_healthy
+    restart: no
+    labels:
+      isoloom.managed: 'true'
+      isoloom.environment: dvwa
   isoloom-check:
     image: curlimages/curl:8.11.1
     profiles:
@@ -158,6 +181,8 @@ services:
         condition: service_healthy
       dvwa:
         condition: service_healthy
+      dvwa-init-1:
+        condition: service_completed_successfully
       dvwa-routes:
         condition: service_healthy
     labels:
@@ -180,6 +205,8 @@ services:
         condition: service_healthy
       dvwa:
         condition: service_healthy
+      dvwa-init-1:
+        condition: service_completed_successfully
       dvwa-routes:
         condition: service_healthy
     labels:
@@ -202,6 +229,8 @@ services:
         condition: service_healthy
       dvwa:
         condition: service_healthy
+      dvwa-init-1:
+        condition: service_completed_successfully
       dvwa-routes:
         condition: service_healthy
     labels:
@@ -232,6 +261,10 @@ networks:
       isoloom.environment: dvwa
 volumes:
   db-data:
+    labels:
+      isoloom.managed: 'true'
+      isoloom.environment: dvwa
+  dvwa-ctf:
     labels:
       isoloom.managed: 'true'
       isoloom.environment: dvwa

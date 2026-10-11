@@ -1,0 +1,41 @@
+{
+  "objectives": [
+    {
+      "key": "main",
+      "title": "Read the flag",
+      "prompt": "Log in to DVWA, use the Command Injection module to run a command on the web server, and read /ctf/flag.",
+      "check": { "evidence": "SECRET", "format": "FLAG{%s}" },
+      "dev": "FLAG{dev-dvwa}",
+      "hints": [
+        "One module pings a host you name. How does the server run that ping?",
+        "At the low security level the input goes to a shell unfiltered: think about shell command separators as a vulnerability class."
+      ],
+      "steps": [
+        {
+          "key": "module",
+          "title": "Pick the module",
+          "prompt": "Which DVWA module hands your input to an operating system command?",
+          "check": { "answer": ["command injection", "exec", "os command injection"] }
+        },
+        {
+          "key": "parameter",
+          "title": "Find the input",
+          "prompt": "Which request parameter of that module reaches the command? (its name)",
+          "check": { "answer": ["ip"] }
+        },
+        {
+          "key": "level",
+          "title": "Choose the level",
+          "prompt": "At which DVWA security level is that input passed on without any filtering?",
+          "check": { "answer": ["low"] }
+        },
+        {
+          "key": "class",
+          "title": "Name the flaw",
+          "prompt": "Which vulnerability class lets a second command run after the intended one?",
+          "check": { "answer": ["command injection", "os command injection", "shell injection"] }
+        }
+      ]
+    }
+  ]
+}
