@@ -1,8 +1,11 @@
 {
+  "project_name": "cyberlabs-dvwa",
+  "slug": "dvwa",
   "title": "DVWA",
   "description": "Damn Vulnerable Web Application: a PHP/MariaDB web application with modules for the most common web vulnerabilities (brute force, command injection, CSRF, file inclusion, file upload, SQL injection, XSS and more), each at four security levels from low to impossible.",
-  "question": "Use the Command Injection module to run a command on the web server and read /ctf/flag.",
-  "category": "WEB",
+  "category": "web",
   "difficulty": 1,
-  "evidence_kind": "SECRET"
+  "evidence_kind": "SECRET",
+  "capabilities": [],
+  "question": "Use the Command Injection module to run a command on the web server and read /ctf/flag."
 }
